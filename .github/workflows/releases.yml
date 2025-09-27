@@ -38,7 +38,6 @@ jobs:
           brew update
           brew install \
             gtk+3 \
-            webkit2gtk \
             libsoup \
             librsvg \
             pkg-config
@@ -59,10 +58,31 @@ jobs:
       - name: Build Tauri App
         run: pnpm tauri build
 
-      - name: Upload installers to GitHub Release
+      # Upload per-OS artifact
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-installers
+          path: src-tauri/target/release/bundle/**/*
+  
+  # Merge job: waits until all builds finish
+  merge:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: ./all-installers
+
+      - name: Create ZIP with all installers
+        run: |
+          cd all-installers
+          zip -r ../ReverseSearchBrowser-installers.zip .
+      
+      - name: Upload merged ZIP to Release
         uses: softprops/action-gh-release@v2
         with:
-          files: src-tauri/target/release/bundle/**/*
+          files: ReverseSearchBrowser-installers.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
