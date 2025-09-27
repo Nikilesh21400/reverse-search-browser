@@ -65,5 +65,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: src-tauri/target/release/bundle/**/* 
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
