@@ -143,20 +143,6 @@ const ChromeAddressBar: React.FC<ChromeAddressBarProps> = ({ onNavigate }) => {
 
       {/* Action buttons */}
       <div className="chrome-action-buttons">
-        <button
-          className={`chrome-action-btn ${isIncognito ? 'active' : ''}`}
-          onClick={toggleIncognito}
-          title={isIncognito ? 'Exit Incognito' : 'New Incognito Window'}
-        >
-          <Shield size={16} />
-        </button>
-        <button
-          className={`chrome-action-btn ${isZen ? 'active' : ''}`}
-          onClick={toggleZen}
-          title={isZen ? 'Exit Zen Mode' : 'Zen Mode'}
-        >
-          <Eye size={16} />
-        </button>
         <ChromeMenuDropdown onNavigate={onNavigate} />
       </div>
     </div>

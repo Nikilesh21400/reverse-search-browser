@@ -171,7 +171,7 @@ body {
   position: absolute;
   top: 100%;
   right: 0;
-  z-index: 1000;
+  z-index: 9999;
   margin-top: 4px;
 }
 
@@ -179,9 +179,10 @@ body {
   background: hsl(var(--chrome-menu-bg));
   border: 1px solid hsl(var(--chrome-border));
   border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   min-width: 260px;
   overflow: hidden;
+  backdrop-filter: blur(10px);
 }
 
 .chrome-menu-content {

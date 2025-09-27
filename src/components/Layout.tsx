@@ -4,6 +4,7 @@ import ChromeAddressBar from './ChromeAddressBar';
 import Omnibox from './overlays/Omnibox';
 import { useZenStore } from '../store/zen';
 import { useIncognitoStore } from '../store/incognito';
+import { useZenEscape } from '../hooks/useZenEscape';
 
 // Import views
 import Settings from '../views/Settings';
@@ -15,6 +16,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { isZen } = useZenStore();
   const { isIncognito } = useIncognitoStore();
   const [currentView, setCurrentView] = useState('home');
+  
+  // Enable ESC to exit zen mode
+  useZenEscape();
 
   const handleNavigate = (view: string) => {
     setCurrentView(view);

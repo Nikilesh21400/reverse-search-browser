@@ -18,13 +18,27 @@ export const useHistoryStore = create<HistoryStore>((set) => ({
   addHistory: async (url) => {
     const { isIncognito } = useIncognitoStore.getState();
     if (isIncognito) return;
-    await invoke('add_history_entry', { url });
-    set((state) => ({
-      history: [{ url, timestamp: Date.now() }, ...state.history]
-    }));
+    
+    try {
+      await invoke('add_history_entry', { url });
+      set((state) => ({
+        history: [{ url, timestamp: Date.now() }, ...state.history]
+      }));
+    } catch (error) {
+      // Fallback for web preview - just add to memory
+      console.warn('Tauri not available, using memory storage:', error);
+      set((state) => ({
+        history: [{ url, timestamp: Date.now() }, ...state.history]
+      }));
+    }
   },
   loadHistory: async () => {
-    const result = await invoke<HistoryEntry[]>('get_history');
-    set({ history: result });
+    try {
+      const result = await invoke<HistoryEntry[]>('get_history');
+      set({ history: result });
+    } catch (error) {
+      // Fallback for web preview
+      console.warn('Tauri not available, no history loaded:', error);
+    }
   }
 }));
