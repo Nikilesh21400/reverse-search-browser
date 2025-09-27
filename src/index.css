@@ -2,6 +2,154 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Chrome Colors - Light Mode */
+  --chrome-bg: 210 20% 98%;
+  --chrome-border: 220 13% 91%;
+  --chrome-tab-bg: 0 0% 100%;
+  --chrome-tab-hover: 220 14% 96%;
+  --chrome-tab-active: 0 0% 100%;
+  --chrome-address-bg: 0 0% 100%;
+  --chrome-text: 220 9% 46%;
+  --chrome-text-secondary: 220 9% 46%;
+  --chrome-accent: 221 83% 53%;
+  --chrome-secure: 142 76% 36%;
+  --chrome-favicon: 220 14% 96%;
+  --chrome-shadow: 0 1px 6px rgba(32,33,36,.28);
+}
+
+.dark {
+  /* Chrome Dark Mode Colors */
+  --chrome-bg: 220 13% 18%;
+  --chrome-border: 217 19% 27%;
+  --chrome-tab-bg: 220 13% 18%;
+  --chrome-tab-hover: 217 19% 27%;
+  --chrome-tab-active: 220 13% 18%;
+  --chrome-address-bg: 217 19% 27%;
+  --chrome-text: 220 14% 96%;
+  --chrome-text-secondary: 220 9% 46%;
+  --chrome-accent: 217 91% 60%;
+  --chrome-secure: 142 76% 73%;
+  --chrome-favicon: 220 9% 46%;
+  --chrome-shadow: 0 1px 6px rgba(0,0,0,.3);
+}
+
 body {
-  @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+  @apply bg-chrome-bg text-chrome-text font-sans;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Chrome Tab Bar Styles */
+.chrome-tab-bar {
+  @apply bg-chrome-bg border-b border-chrome-border;
+  height: 36px;
+  display: flex;
+  align-items: stretch;
+}
+
+.chrome-tabs {
+  @apply flex-1 flex items-stretch;
+  max-width: calc(100% - 40px);
+}
+
+.chrome-tab {
+  @apply relative flex items-center cursor-pointer transition-all duration-150;
+  background: hsl(var(--chrome-tab-bg));
+  border-right: 1px solid hsl(var(--chrome-border));
+  min-width: 100px;
+  max-width: 240px;
+  flex: 1;
+  height: 36px;
+  
+  &:hover {
+    background: hsl(var(--chrome-tab-hover));
+  }
+  
+  &.active {
+    background: hsl(var(--chrome-tab-active));
+    border-bottom: 2px solid hsl(var(--chrome-accent));
+    z-index: 1;
+  }
+  
+  &:not(.active)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: hsl(var(--chrome-border));
+  }
+}
+
+.chrome-tab-content {
+  @apply flex items-center px-3 py-2 w-full min-w-0;
+}
+
+.chrome-tab-favicon {
+  @apply flex-shrink-0 mr-2;
+}
+
+.chrome-tab-title {
+  @apply flex-1 text-sm truncate text-chrome-text;
+  font-size: 12px;
+}
+
+.chrome-tab-close {
+  @apply flex-shrink-0 ml-2 p-1 rounded-full hover:bg-chrome-border transition-colors;
+  opacity: 0;
+  
+  .chrome-tab:hover & {
+    opacity: 1;
+  }
+  
+  .chrome-tab.active & {
+    opacity: 1;
+  }
+}
+
+.chrome-new-tab-btn {
+  @apply flex items-center justify-center w-9 h-9 text-chrome-text-secondary hover:bg-chrome-tab-hover rounded transition-colors;
+  margin: auto 8px;
+}
+
+/* Chrome Address Bar Styles */
+.chrome-address-bar {
+  @apply bg-chrome-bg px-3 py-2 flex items-center gap-2;
+  height: 48px;
+  border-bottom: 1px solid hsl(var(--chrome-border));
+}
+
+.chrome-nav-buttons {
+  @apply flex items-center gap-1;
+}
+
+.chrome-nav-btn {
+  @apply w-8 h-8 flex items-center justify-center rounded-full text-chrome-text hover:bg-chrome-tab-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.chrome-omnibox {
+  @apply flex-1 flex items-center bg-chrome-address-bg border border-chrome-border rounded-full px-3 py-1 mx-2;
+  box-shadow: var(--chrome-shadow);
+}
+
+.chrome-security-indicator {
+  @apply flex items-center mr-2;
+}
+
+.chrome-address-input {
+  @apply flex-1 bg-transparent outline-none text-sm text-chrome-text placeholder-chrome-text-secondary;
+  font-size: 14px;
+}
+
+.chrome-action-buttons {
+  @apply flex items-center gap-1;
+}
+
+.chrome-action-btn {
+  @apply w-8 h-8 flex items-center justify-center rounded-full text-chrome-text hover:bg-chrome-tab-hover transition-colors;
+  
+  &.active {
+    @apply bg-chrome-accent text-white;
+  }
 }
