@@ -10,16 +10,21 @@ export const useGlobalShortcuts = () => {
 
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
+      // Ctrl+T - New tab
       if (e.ctrlKey && e.key === 't') {
         e.preventDefault();
         addTab('https://reversesearch.co.in');
       }
 
+      // Ctrl+W - Close tab
       if (e.ctrlKey && e.key === 'w') {
         e.preventDefault();
-        closeTab(activeTab);
+        if (tabs.length > 1) {
+          closeTab(activeTab);
+        }
       }
 
+      // Ctrl+R - Refresh
       if (e.ctrlKey && e.key === 'r') {
         e.preventDefault();
         const iframe = document.querySelector('iframe');
@@ -28,22 +33,36 @@ export const useGlobalShortcuts = () => {
         }
       }
 
-      if (e.ctrlKey && !isNaN(parseInt(e.key))) {
+      // Ctrl+1-9 - Switch tabs
+      if (e.ctrlKey && !isNaN(parseInt(e.key)) && parseInt(e.key) > 0) {
         e.preventDefault();
         const index = parseInt(e.key) - 1;
         if (tabs[index]) setActiveTab(tabs[index].id);
       }
 
+      // Ctrl+Z - Toggle zen mode
       if (e.ctrlKey && e.key === 'z') {
         e.preventDefault();
         toggleZen();
       }
 
-      if (e.ctrlKey && e.key === 'i') {
+      // Ctrl+Shift+N - Toggle incognito
+      if (e.ctrlKey && e.shiftKey && e.key === 'N') {
         e.preventDefault();
         toggleIncognito();
       }
 
+      // Ctrl+L - Focus address bar
+      if (e.ctrlKey && e.key === 'l') {
+        e.preventDefault();
+        const addressInput = document.querySelector('.chrome-address-input') as HTMLInputElement;
+        if (addressInput) {
+          addressInput.focus();
+          addressInput.select();
+        }
+      }
+
+      // Escape - Close any overlays
       if (e.key === 'Escape') {
         const anyOpen = document.querySelector('.z-50');
         if (anyOpen) anyOpen.remove();
@@ -52,5 +71,5 @@ export const useGlobalShortcuts = () => {
 
     window.addEventListener('keydown', handleKeydown);
     return () => window.removeEventListener('keydown', handleKeydown);
-  }, [tabs, activeTab]);
+  }, [tabs, activeTab, addTab, closeTab, setActiveTab, toggleZen, toggleIncognito]);
 };

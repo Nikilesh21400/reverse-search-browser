@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistoryStore } from '../../store/history';
 import { useIncognitoStore } from '../../store/incognito';
+import { Search } from 'lucide-react';
 
 const Omnibox = () => {
   const [show, setShow] = useState(false);
@@ -29,24 +30,54 @@ const Omnibox = () => {
   ].filter((item) => item.value.toLowerCase().includes(query.toLowerCase()));
 
   return (
-    <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-white border shadow-xl rounded p-4 w-96 z-50">
-      <input
-        autoFocus
-        placeholder="Search bookmarks, history, or enter URL..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="w-full border px-3 py-2 rounded"
-      />
-      <ul className="mt-2 max-h-60 overflow-auto text-sm">
-        {results.map((item, idx) => (
-          <li key={idx} className="p-2 border-b hover:bg-gray-100 cursor-pointer">
-            <span className="font-bold text-gray-600">{item.type}:</span> {item.value}
-          </li>
-        ))}
-        {results.length === 0 && (
-          <li className="p-2 text-gray-400">No results</li>
-        )}
-      </ul>
+    <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex items-start justify-center pt-20">
+      <div className="bg-white dark:bg-gray-800 border border-chrome-border shadow-chrome rounded-lg w-full max-w-2xl mx-4">
+        <div className="flex items-center p-4 border-b border-chrome-border">
+          <Search size={20} className="text-chrome-text-secondary mr-3" />
+          <input
+            autoFocus
+            placeholder="Search bookmarks, history, or enter URL..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="flex-1 bg-transparent outline-none text-chrome-text placeholder-chrome-text-secondary text-lg"
+          />
+        </div>
+        <div className="max-h-96 overflow-auto">
+          {results.length > 0 ? (
+            results.map((item, idx) => (
+              <div 
+                key={idx} 
+                className="flex items-center p-3 hover:bg-chrome-tab-hover cursor-pointer border-b border-chrome-border last:border-b-0"
+                onClick={() => {
+                  // Navigate to the selected URL
+                  window.location.href = item.value;
+                  setShow(false);
+                }}
+              >
+                <div className="flex-shrink-0 w-8 h-8 bg-chrome-favicon rounded mr-3 flex items-center justify-center">
+                  <span className="text-xs text-chrome-text-secondary">
+                    {item.type === 'History' ? '🕒' : '⭐'}
+                  </span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium text-chrome-text truncate">
+                    {item.value}
+                  </div>
+                  <div className="text-xs text-chrome-text-secondary">
+                    {item.type}
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="p-8 text-center text-chrome-text-secondary">
+              <Search size={48} className="mx-auto mb-4 opacity-50" />
+              <p>No results found</p>
+              <p className="text-sm mt-1">Try a different search term</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
