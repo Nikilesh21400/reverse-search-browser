@@ -1,0 +1,68 @@
+name: Release ReverseSearch Browser
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write   # required for release uploads
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Linux deps
+      - name: Install system dependencies (Linux only)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libsoup-3.0-dev \
+            pkg-config
+
+      # macOS deps
+      - name: Install system dependencies (macOS only)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew update
+          brew install \
+            gtk+3 \
+            webkit2gtk \
+            libsoup \
+            librsvg \
+            pkg-config
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install --no-frozen-lockfile
+
+      - name: Build Tauri App
+        run: pnpm tauri build
+
+      - name: Upload installers to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: src-tauri/target/release/bundle/**/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
