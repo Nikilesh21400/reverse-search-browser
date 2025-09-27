@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "identifier": "reversesearch-browser",
+  "version": "0.1.0",
+  "productName": "ReverseSearch Browser",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "ReverseSearch Browser",
+        "width": 1280,
+        "height": 800,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["msi", "nsis", "dmg", "app", "deb", "rpm", "appimage"],
+    "icon": ["icons/icon.ico", "icons/icon.png"]
+  },
+  "plugins": {
+    "updater": {
+      "active": false,      
+      "endpoints": [],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDI2QTc2MDFFMUEyODYyMTcKUldRWFlpZ2FIbUNuSmtsbllsNXZRak1ZREp1YzNkcUVxWkdTNlhPQ25xbnNlanRJSXBxQ01BT04K",
+      "dialog": true
+    }
+  }
+}

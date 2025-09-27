@@ -1,27 +1,27 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './views/Home';
+import Settings from './views/Settings';
+import Bookmarks from './views/Bookmarks';
+import Downloads from './views/Downloads';
+import Layout from './components/Layout';
 
-const queryClient = new QueryClient();
+import { useGlobalShortcuts } from './hooks/useGlobalShortcuts';
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+const App = () => {
+  useGlobalShortcuts();
+  return (
+    <Router>
+      <Layout>
         <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/bookmarks" element={<Bookmarks />} />
+          <Route path="/downloads" element={<Downloads />} />
         </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+      </Layout>
+    </Router>
+  );
+};
 
 export default App;
