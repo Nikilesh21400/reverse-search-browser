@@ -5,11 +5,11 @@ description = "ReverseSearch Browser"
 edition = "2021"
 
 [dependencies]
-tauri = { version = "2", features = [] }
-tauri-build = "2"
-tauri-plugin-store = "2"
-tauri-plugin-shell = "2"
-tauri-plugin-updater = "2"   # optional, but since you tried to use it
+tauri = { version = "2.0", features = [] }
+tauri-build = "2.0"
+tauri-plugin-store = "2.0"
+tauri-plugin-shell = "2.0"
+tauri-plugin-updater = "2.0"   # optional, but since you tried to use it
 
 # Uncomment only if you *really* want SQLite directly:
 rusqlite = { version = "0.31", features = ["bundled"] }
@@ -17,4 +17,4 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 
 [build-dependencies]
-tauri-build = { version = "2", features = [] }
+tauri-build = { version = "2.0", features = [] }
