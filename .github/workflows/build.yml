@@ -2,8 +2,8 @@ name: Build ReverseSearch Browser
 
 on:
   push:
-    branches: [ main ]
-    # Optional: also build on version tags
+    branches:
+      - main
     tags:
       - "v*"
 
@@ -15,10 +15,20 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4   # ✅ Updated
+
+      - name: Install system dependencies (Linux only)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            pkg-config
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4   # ✅ Updated
         with:
           node-version: 18
 
@@ -35,7 +45,7 @@ jobs:
           pnpm tauri build
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4   # ✅ Updated
         with:
           name: ${{ matrix.os }}-artifacts
           path: src-tauri/target/release/bundle/**
