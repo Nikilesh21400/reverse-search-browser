@@ -1,52 +1,69 @@
-{
-  "$schema": "https://schema.tauri.app/config/2",
-  "identifier": "reversesearch-browser",
-  "version": "0.1.0",
-  "productName": "ReverseSearch Browser",
-  "build": {
-    "beforeDevCommand": "pnpm dev",
-    "beforeBuildCommand": "pnpm build",
-    "frontendDist": "../dist",
-    "devUrl": "http://localhost:8080"
-  },
-  "app": {
-    "windows": [
-      {
-        "title": "ReverseSearch Browser",
-        "width": 1280,
-        "height": 800,
-        "resizable": true
-      }
-    ],
-    "security": {
-      "csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline'"
-    }
-  },
-  "bundle": {
-    "active": true,
-    "targets": [
-      "msi",
-      "nsis",
-      "dmg",
-      "app",
-      "deb",
-      "rpm",
-      "appimage"
-    ],
-    "icon": [
-      "icons/icon.ico",
-      "icons/icon.icns",
-      "icons/icon.png",
-      "icons/icon-32.png",
-      "icons/icon-128.png",
-      "icons/icon-256.png",
-      "icons/icon-512.png"
-    ]
-  },
-  "plugins": {
-    "updater": {
-      "active": false,
-      "dialog": true
-    }
-  }
-}
+name: Release ReverseSearch Browser
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Linux dependencies
+      - name: Install system dependencies (Linux only)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libsoup-3.0-dev \
+            pkg-config
+
+      # macOS dependencies
+      - name: Install system dependencies (macOS only)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew update
+          brew install \
+            gtk+3 \
+            webkit2gtk \
+            libsoup \
+            librsvg \
+            pkg-config
+
+      # Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # Rust
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install --no-frozen-lockfile
+
+      # Build Tauri app
+      - name: Build Tauri App
+        run: pnpm tauri build
+
+      # Upload installers to GitHub Release
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: src-tauri/target/release/bundle/**/* 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
