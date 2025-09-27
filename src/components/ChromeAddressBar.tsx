@@ -3,6 +3,7 @@ import { useTabStore } from '../store/tabs';
 import { useHistoryStore } from '../store/history';
 import { useIncognitoStore } from '../store/incognito';
 import { useZenStore } from '../store/zen';
+import ChromeMenuDropdown from './ChromeMenuDropdown';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -14,7 +15,11 @@ import {
   Lock
 } from 'lucide-react';
 
-const ChromeAddressBar = () => {
+interface ChromeAddressBarProps {
+  onNavigate: (view: string) => void;
+}
+
+const ChromeAddressBar: React.FC<ChromeAddressBarProps> = ({ onNavigate }) => {
   const { tabs, activeTab } = useTabStore();
   const { addHistory } = useHistoryStore();
   const { isIncognito, toggleIncognito } = useIncognitoStore();
@@ -35,7 +40,7 @@ const ChromeAddressBar = () => {
     if (newUrl && activeTab) {
       // Update the active tab's URL in the store
       const updatedTabs = tabs.map(tab => 
-        tab.id === activeTab ? { ...tab, url: newUrl } : tab
+        tab.id === activeTab ? { ...tab, url: newUrl, title: 'Loading...' } : tab
       );
       useTabStore.setState({ tabs: updatedTabs });
       
@@ -43,6 +48,9 @@ const ChromeAddressBar = () => {
       if (!isIncognito) {
         addHistory(newUrl);
       }
+      
+      // Update the URL state immediately
+      setUrl(newUrl);
     }
   };
 
@@ -149,9 +157,7 @@ const ChromeAddressBar = () => {
         >
           <Eye size={16} />
         </button>
-        <button className="chrome-action-btn" title="Customize and control">
-          <MoreVertical size={16} />
-        </button>
+        <ChromeMenuDropdown onNavigate={onNavigate} />
       </div>
     </div>
   );

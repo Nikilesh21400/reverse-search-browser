@@ -27,9 +27,9 @@ const ChromeTabBar = () => {
               <div className="chrome-tab-favicon">
                 <div className="w-4 h-4 bg-chrome-favicon rounded-sm"></div>
               </div>
-              <span className="chrome-tab-title">
-                {getTabTitle(tab.url)}
-              </span>
+               <span className="chrome-tab-title">
+                 {tab.title || getTabTitle(tab.url)}
+               </span>
               <button
                 className="chrome-tab-close"
                 onClick={(e) => {
@@ -44,7 +44,7 @@ const ChromeTabBar = () => {
         ))}
         <button
           className="chrome-new-tab-btn"
-          onClick={() => addTab('https://reversesearch.co.in')}
+          onClick={() => addTab('https://www.google.com')}
         >
           <Plus size={16} />
         </button>

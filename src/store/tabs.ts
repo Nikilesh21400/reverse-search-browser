@@ -3,6 +3,7 @@ import { create } from 'zustand';
 interface Tab {
   id: string;
   url: string;
+  title?: string;
 }
 
 interface TabStore {
@@ -14,12 +15,12 @@ interface TabStore {
 }
 
 export const useTabStore = create<TabStore>((set) => ({
-  tabs: [ { id: '1', url: 'https://reversesearch.co.in' } ],
+  tabs: [ { id: '1', url: 'https://reversesearch.co.in', title: 'ReverseSearch' } ],
   activeTab: '1',
   addTab: (url) => set((state) => {
     const id = Date.now().toString();
     return {
-      tabs: [...state.tabs, { id, url }],
+      tabs: [...state.tabs, { id, url, title: 'New Tab' }],
       activeTab: id
     };
   }),
