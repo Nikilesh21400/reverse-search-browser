@@ -38,7 +38,8 @@ fn get_history(state: State<HistoryState>) -> AppResult<Vec<(String, i64)>> {
 }
 
 fn main() {
-    let conn = Connection::open("history.db").expect("failed to open db");
+    std::fs::create_dir_all("data").unwrap(); // ensure folder exists
+    let conn = Connection::open("data/history.db").expect("failed to open db");
     conn.execute(
         "CREATE TABLE IF NOT EXISTS history (
             id INTEGER PRIMARY KEY,
