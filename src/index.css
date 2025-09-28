@@ -662,3 +662,82 @@ body {
 .chrome-context-menu button:hover {
   background: hsl(var(--chrome-hover));
 }
+
+/* Chrome Settings Styles */
+.chrome-settings-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.chrome-settings-section {
+  background: hsl(var(--chrome-surface));
+  border: 1px solid hsl(var(--chrome-border));
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.chrome-settings-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: hsl(var(--chrome-text));
+  margin: 0 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid hsl(var(--chrome-border));
+}
+
+.chrome-setting-item {
+  margin-bottom: 20px;
+}
+
+.chrome-setting-item:last-child {
+  margin-bottom: 0;
+}
+
+.chrome-setting-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: hsl(var(--chrome-text));
+  margin-bottom: 8px;
+}
+
+.chrome-setting-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid hsl(var(--chrome-border));
+  border-radius: 6px;
+  background: hsl(var(--chrome-background));
+  color: hsl(var(--chrome-text));
+  font-size: 14px;
+  transition: border-color 0.15s ease;
+}
+
+.chrome-setting-input:focus {
+  outline: none;
+  border-color: hsl(var(--chrome-accent));
+  box-shadow: 0 0 0 2px hsl(var(--chrome-accent) / 0.2);
+}
+
+.chrome-setting-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid hsl(var(--chrome-border));
+  border-radius: 6px;
+  background: hsl(var(--chrome-background));
+  color: hsl(var(--chrome-text));
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.chrome-setting-select:focus {
+  outline: none;
+  border-color: hsl(var(--chrome-accent));
+  box-shadow: 0 0 0 2px hsl(var(--chrome-accent) / 0.2);
+}
+
+.chrome-settings-actions {
+  text-align: center;
+  padding: 24px 0;
+}
