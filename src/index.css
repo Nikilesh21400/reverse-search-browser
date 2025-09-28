@@ -22,6 +22,9 @@
   --chrome-surface: 0 0% 98%;
   --chrome-error-bg: 0 100% 97%;
   --chrome-error: 0 84% 60%;
+  --chrome-background: 0 0% 100%;
+  --chrome-button: 220 14% 96%;
+  --chrome-button-hover: 220 13% 91%;
 }
 
 .dark {
@@ -44,6 +47,9 @@
   --chrome-surface: 213 27% 8%;
   --chrome-error-bg: 0 62% 15%;
   --chrome-error: 0 84% 75%;
+  --chrome-background: 220 13% 18%;
+  --chrome-button: 217 19% 27%;
+  --chrome-button-hover: 220 13% 91%;
 }
 
 body {
@@ -354,4 +360,305 @@ body {
 .chrome-history-remove:hover {
   background: hsl(var(--chrome-error-bg));
   color: hsl(var(--chrome-error));
+}
+
+/* Enhanced Chrome History Styles */
+.chrome-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chrome-history-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: hsl(var(--chrome-surface));
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.chrome-history-item:hover {
+  background: hsl(var(--chrome-hover));
+  border-color: hsl(var(--chrome-border));
+}
+
+.chrome-history-favicon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsl(var(--chrome-background));
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.chrome-history-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.chrome-history-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: hsl(var(--chrome-text));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chrome-history-url {
+  font-size: 12px;
+  color: hsl(var(--chrome-text-secondary));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.chrome-history-time {
+  font-size: 12px;
+  color: hsl(var(--chrome-text-secondary));
+  margin-top: 4px;
+}
+
+.chrome-history-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chrome-history-action {
+  padding: 4px 12px;
+  font-size: 12px;
+  background: hsl(var(--chrome-button));
+  color: hsl(var(--chrome-text-secondary));
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chrome-history-action:hover {
+  background: hsl(var(--chrome-button-hover));
+  color: hsl(var(--chrome-text));
+}
+
+.chrome-history-remove {
+  padding: 8px;
+  border: none;
+  background: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: hsl(var(--chrome-text-secondary));
+  transition: all 0.15s ease;
+}
+
+.chrome-history-remove:hover {
+  background: hsl(var(--chrome-error-bg));
+  color: hsl(var(--chrome-error));
+}
+
+/* Chrome Bookmarks Styles */
+.chrome-bookmark-form {
+  background: hsl(var(--chrome-surface));
+  border: 1px solid hsl(var(--chrome-border));
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+}
+
+.chrome-form-group {
+  margin-bottom: 12px;
+}
+
+.chrome-form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: hsl(var(--chrome-text));
+  margin-bottom: 4px;
+}
+
+.chrome-form-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid hsl(var(--chrome-border));
+  border-radius: 6px;
+  background: hsl(var(--chrome-background));
+  color: hsl(var(--chrome-text));
+  font-size: 14px;
+}
+
+.chrome-form-input::placeholder {
+  color: hsl(var(--chrome-text-secondary));
+}
+
+.chrome-form-input:focus {
+  outline: none;
+  border-color: hsl(var(--chrome-accent));
+  box-shadow: 0 0 0 2px hsl(var(--chrome-accent) / 0.2);
+}
+
+.chrome-form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.chrome-btn-primary {
+  padding: 8px 16px;
+  background: hsl(var(--chrome-accent));
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.chrome-btn-primary:hover {
+  background: hsl(var(--chrome-accent) / 0.9);
+}
+
+.chrome-btn-secondary {
+  padding: 8px 16px;
+  background: hsl(var(--chrome-surface));
+  color: hsl(var(--chrome-text));
+  border: 1px solid hsl(var(--chrome-border));
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.chrome-btn-secondary:hover {
+  background: hsl(var(--chrome-hover));
+}
+
+.chrome-bookmarks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.chrome-bookmark-card {
+  background: hsl(var(--chrome-surface));
+  border: 1px solid hsl(var(--chrome-border));
+  border-radius: 8px;
+  padding: 16px;
+  transition: border-color 0.15s ease;
+}
+
+.chrome-bookmark-card:hover {
+  border-color: hsl(var(--chrome-accent) / 0.5);
+}
+
+.chrome-bookmark-favicon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsl(var(--chrome-background));
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.chrome-bookmark-info {
+  margin-bottom: 12px;
+}
+
+.chrome-bookmark-name {
+  font-weight: 500;
+  color: hsl(var(--chrome-text));
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+.chrome-bookmark-url {
+  font-size: 12px;
+  color: hsl(var(--chrome-text-secondary));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 8px;
+}
+
+.chrome-bookmark-date {
+  font-size: 12px;
+  color: hsl(var(--chrome-text-secondary));
+}
+
+.chrome-bookmark-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chrome-bookmark-action {
+  padding: 4px 12px;
+  font-size: 12px;
+  background: hsl(var(--chrome-button));
+  color: hsl(var(--chrome-text-secondary));
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chrome-bookmark-action:hover {
+  background: hsl(var(--chrome-button-hover));
+  color: hsl(var(--chrome-text));
+}
+
+.chrome-bookmark-remove {
+  padding: 4px;
+  border: none;
+  background: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: hsl(var(--chrome-text-secondary));
+  transition: all 0.15s ease;
+}
+
+.chrome-bookmark-remove:hover {
+  background: hsl(var(--chrome-error-bg));
+  color: hsl(var(--chrome-error));
+}
+
+/* Chrome Context Menu */
+.chrome-context-menu {
+  position: fixed;
+  background: hsl(var(--chrome-surface));
+  border: 1px solid hsl(var(--chrome-border));
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: 4px 0;
+  z-index: 50;
+  min-width: 150px;
+}
+
+.chrome-context-menu button {
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: hsl(var(--chrome-text));
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.chrome-context-menu button:hover {
+  background: hsl(var(--chrome-hover));
 }

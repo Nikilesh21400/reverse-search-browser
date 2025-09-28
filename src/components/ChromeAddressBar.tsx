@@ -62,16 +62,25 @@ const ChromeAddressBar: React.FC<ChromeAddressBarProps> = ({ onNavigate }) => {
     
     // Add protocol if missing
     if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
-      // Check if it looks like a domain
-      if (finalUrl.includes('.') && !finalUrl.includes(' ')) {
+      // Check if it looks like a domain (contains dot but no spaces)
+      if (finalUrl.includes('.') && !finalUrl.includes(' ') && finalUrl.length > 3) {
         finalUrl = `https://${finalUrl}`;
       } else {
-        // Search query
+        // Search query - use Google search
         finalUrl = `https://www.google.com/search?q=${encodeURIComponent(finalUrl)}`;
       }
     }
     
+    // Force navigation by updating URL directly
     handleNavigate(finalUrl);
+    
+    // Also try to navigate the iframe directly
+    setTimeout(() => {
+      const iframe = document.querySelector('iframe');
+      if (iframe) {
+        iframe.src = finalUrl;
+      }
+    }, 100);
   };
 
   const handleBack = () => {

@@ -11,6 +11,7 @@ interface HistoryStore {
   history: HistoryEntry[];
   addHistory: (url: string) => void;
   loadHistory: () => void;
+  removeHistory: (index: number) => void;
 }
 
 export const useHistoryStore = create<HistoryStore>((set) => ({
@@ -40,5 +41,10 @@ export const useHistoryStore = create<HistoryStore>((set) => ({
       // Fallback for web preview
       console.warn('Tauri not available, no history loaded:', error);
     }
+  },
+  removeHistory: (index: number) => {
+    set((state) => ({
+      history: state.history.filter((_, i) => i !== index)
+    }));
   }
 }));

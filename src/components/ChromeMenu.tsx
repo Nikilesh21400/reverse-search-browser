@@ -21,11 +21,31 @@ const ChromeMenu: React.FC<ChromeMenuProps> = ({ onClose, onNavigate }) => {
   const { toggleIncognito } = useIncognitoStore();
   const { toggleZen } = useZenStore();
 
-  const handleNewIncognitoWindow = () => {
-    // In a real Chrome implementation, this would open a new window
-    // For now, we'll toggle incognito mode and notify user
-    toggleIncognito();
-    alert('New incognito window opened! (In a desktop app, this would open a new window)');
+  const handleNewIncognitoWindow = async () => {
+    try {
+      // Try to open a new Tauri window
+      const { WebviewWindow } = await import('@tauri-apps/api/window');
+      
+      new WebviewWindow('incognito', {
+        url: '/',
+        title: 'Incognito Browser',
+        width: 1200,
+        height: 800,
+        resizable: true,
+        fullscreen: false,
+        decorations: true,
+      });
+      
+      // Set incognito mode for the new window context
+      toggleIncognito();
+      
+    } catch (error) {
+      // Fallback for web or if Tauri is not available
+      console.log('Opening incognito in same window (Tauri not available)');
+      toggleIncognito();
+      alert('Incognito mode activated! (New window requires desktop app)');
+    }
+    
     onClose();
   };
 
